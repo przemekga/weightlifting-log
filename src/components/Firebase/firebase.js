@@ -18,7 +18,7 @@ class Firebase {
     this.auth = app.auth();
     this.db = app.database();
   }
-  
+
   doCreateUserWithEmailAndPassword = (email, password) =>
   this.auth.createUserWithEmailAndPassword(email, password);
 
@@ -35,7 +35,7 @@ class Firebase {
   //User API
 
   user = uid => this.db.ref(`users/${uid}`);
-
+  userRole = uid => this.db.ref(`users/${uid}/role`);
   users = () => this.db.ref('users');
 }
 

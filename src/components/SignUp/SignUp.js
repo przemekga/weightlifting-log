@@ -37,6 +37,7 @@ class SignUpFormBase extends Component {
           .set({
             username,
             email,
+            role: 'user'
           });
       })
       .then(() => {

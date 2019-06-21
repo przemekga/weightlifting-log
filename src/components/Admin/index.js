@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { withFirebase } from "../Firebase";
+import { withAuthorization } from "../Session";
 
 class AdminPage extends Component {
   state = {
@@ -44,21 +44,6 @@ class AdminPage extends Component {
 }
 
 const UserList = ({ users }) => (
-  // <ul>
-  //   {users.map(user => (
-  //     <li key={user.uid}>
-  //       <span>
-  //         <strong>ID:</strong> {user.uid}
-  //       </span>
-  //       <span>
-  //         <strong>E-Mail:</strong> {user.email}
-  //       </span>
-  //       <span>
-  //         <strong>Username:</strong> {user.username}
-  //       </span>
-  //     </li>
-  //   ))}
-  // </ul>
   <table>
     <thead>
       <tr>
@@ -92,4 +77,6 @@ const UserList = ({ users }) => (
   </table>
 );
 
-export default withFirebase(AdminPage);
+const condition = (authUser, role) => !!authUser && role === 'admin';
+
+export default withAuthorization(condition)(AdminPage);

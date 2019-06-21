@@ -10,9 +10,13 @@ const withAuthorization = condition => Component => {
   class WithAuthorization extends React.Component {
     componentDidMount() {
       this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
-        if (!condition(authUser)) {
-          this.props.history.push(ROUTES.SIGN_IN);
-        }
+        this.props.firebase.userRole(authUser.uid).on("value", snapshot => {
+          const role = snapshot.val();
+          console.log(authUser);
+          if (!condition(authUser, role)) {
+            this.props.history.push(ROUTES.SIGN_IN);
+          }
+        });
       });
     }
 
@@ -23,8 +27,8 @@ const withAuthorization = condition => Component => {
     render() {
       return (
         <AuthUserContext.Consumer>
-          {authUser =>
-            condition(authUser) ? <Component {...this.props} /> : null
+          {(authUser, role) =>
+            condition(authUser, role) ? <Component {...this.props} /> : null
           }
         </AuthUserContext.Consumer>
       );
