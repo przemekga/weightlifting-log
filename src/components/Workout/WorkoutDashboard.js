@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import AddButton from "../UI/AddButton";
 import classes from "./WorkoutDashboard.module.css";
+import { withAuthorization } from '../Session';
 
-export default class WorkoutDashboard extends Component {
+class WorkoutDashboard extends Component {
   render() {
     return (
       <>
@@ -14,3 +15,7 @@ export default class WorkoutDashboard extends Component {
     );
   }
 }
+
+const condition = authUser => !!authUser;
+
+export default withAuthorization(condition)(WorkoutDashboard);

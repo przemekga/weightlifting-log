@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import M from "materialize-css";
 import NavLinks from '../NavLinks/NavLinks';
-import { withFirebase } from '../../Firebase';
-
 
 class Sidebar extends Component {
 

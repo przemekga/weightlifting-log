@@ -42,6 +42,16 @@ const NavLinksAuth = () => (
     <li>
       <div className="divider" />
     </li>
+    <li>
+      <Link to={ROUTES.ACCOUNT} className="sidenav-close">
+        Account
+      </Link>
+    </li>
+    <li>
+      <Link to={ROUTES.ADMIN} className="sidenav-close">
+        Admin
+      </Link>
+    </li>
     <li className="sidenav-close">
       <SignOutButton />
     </li>

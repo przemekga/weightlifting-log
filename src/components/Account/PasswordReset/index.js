@@ -1,26 +1,14 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 
-import { withFirebase } from "../Firebase";
-import * as ROUTES from "../../constants/routes";
-
-const PasswordForgetPage = () => (
-  <div className="col s12">
-    <div className="row">
-      <div className="col s12">
-        <h4>Reset password</h4>
-      </div>
-      <PasswordForgetForm />
-    </div>
-  </div>
-);
+import { withFirebase } from "../../Firebase";
 
 const INITIAL_STATE = {
-  email: "",
+  passwordOne: "",
+  passwordTwo: "",
   error: null
 };
 
-class PasswordForgetFormBase extends Component {
+class PasswordChangeForm extends Component {
   constructor(props) {
     super(props);
 
@@ -28,10 +16,10 @@ class PasswordForgetFormBase extends Component {
   }
 
   onSubmit = event => {
-    const { email } = this.state;
+    const { passwordOne } = this.state;
 
     this.props.firebase
-      .doPasswordReset(email)
+      .doPasswordUpdate(passwordOne)
       .then(() => {
         this.setState({ ...INITIAL_STATE });
       })
@@ -47,22 +35,33 @@ class PasswordForgetFormBase extends Component {
   };
 
   render() {
-    const { email, error } = this.state;
+    const { passwordOne, passwordTwo, error } = this.state;
 
-    const isInvalid = email === "";
+    const isInvalid = passwordOne !== passwordTwo || passwordOne === "";
 
     return (
-      <form onSubmit={this.onSubmit} className="col s12">
+      <form onSubmit={this.onSubmit} className="col-12">
+        <h6>Change password</h6>
         <div className="row">
           <div className="input-field col s12">
             <input
-              name="email"
-              value={email}
+              name="passwordOne"
+              value={passwordOne}
               onChange={this.onChange}
-              type="email"
+              type="password"
               className="validate"
             />
-            <label htmlFor="useremail">Email</label>
+            <label htmlFor="useremail">New password</label>
+          </div>
+          <div className="input-field col s12">
+            <input
+              name="passwordTwo"
+              value={passwordTwo}
+              onChange={this.onChange}
+              type="password"
+              className="validate"
+            />
+            <label htmlFor="passwordTwo">Confirm new password</label>
           </div>
           <div className="col s12">
             <button
@@ -71,7 +70,7 @@ class PasswordForgetFormBase extends Component {
               type="submit"
               name="signup"
             >
-              Reset my password
+              Change password
               <i className="material-icons right">send</i>
             </button>
           </div>
@@ -84,14 +83,4 @@ class PasswordForgetFormBase extends Component {
   }
 }
 
-const PasswordForgetLink = () => (
-  <p>
-    <Link to={ROUTES.PASSWORD_FORGET}>Forgot Password?</Link>
-  </p>
-);
-
-export default PasswordForgetPage;
-
-const PasswordForgetForm = withFirebase(PasswordForgetFormBase);
-
-export { PasswordForgetForm, PasswordForgetLink };
+export default withFirebase(PasswordChangeForm);

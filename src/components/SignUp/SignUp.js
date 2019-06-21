@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Link, withRouter } from 'react-router-dom';
-import { compose } from 'recompose';
+import { Link, withRouter } from "react-router-dom";
+import { compose } from "recompose";
 
-import { withFirebase } from '../Firebase';
+import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
 
 const SignUpPage = () => (
@@ -31,6 +31,15 @@ class SignUpFormBase extends Component {
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
+        // Create a user in your Firebase realtime database
+        return this.props.firebase
+          .user(authUser.user.uid)
+          .set({
+            username,
+            email,
+          });
+      })
+      .then(() => {
         this.setState({ ...INITIAL_STATE });
         this.props.history.push(ROUTES.WORKOUT_DASHBOARD);
       })
@@ -62,6 +71,7 @@ class SignUpFormBase extends Component {
               onChange={this.onChange}
               type="text"
               className="validate"
+              id="username"
             />
             <label htmlFor="username">Username</label>
           </div>
@@ -72,6 +82,7 @@ class SignUpFormBase extends Component {
               onChange={this.onChange}
               type="email"
               className="validate"
+              id="useremail"
             />
             <label htmlFor="useremail">Email</label>
           </div>
@@ -82,8 +93,9 @@ class SignUpFormBase extends Component {
               onChange={this.onChange}
               type="password"
               className="validate"
+              id="password"
             />
-            <label htmlFor="useremail">Password</label>
+            <label htmlFor="password">Password</label>
           </div>
           <div className="input-field col s12">
             <input
@@ -92,6 +104,7 @@ class SignUpFormBase extends Component {
               onChange={this.onChange}
               type="password"
               className="validate"
+              id="passwordTwo"
             />
             <label htmlFor="passwordTwo">Repeat password</label>
           </div>
@@ -109,7 +122,7 @@ class SignUpFormBase extends Component {
           <div className="col s12 red-text text-darken-4">
             {error && <p>{error.message}</p>}
           </div>
-          </div>
+        </div>
       </form>
     );
   }
@@ -123,7 +136,7 @@ const SignUpLink = () => (
 
 const SignUpForm = compose(
   withRouter,
-  withFirebase,
+  withFirebase
 )(SignUpFormBase);
 
 export default SignUpPage;

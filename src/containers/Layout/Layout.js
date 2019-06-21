@@ -1,12 +1,14 @@
 import React from "react";
 import Header from "../../components/Navigation/Header/Header";
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import WorkoutDashboard from "../../components/Workout/WorkoutDashboard";
 import AddWorkout from "../../components/Workout/AddWorkout";
 import History from "../../components/History/History";
 import SignUp from "../../components/SignUp/SignUp";
 import SignIn from "../../components/SignIn/SignIn";
 import PasswordForget from "../../components/PasswordForget";
+import Account from "../../components/Account";
+import Admin from "../../components/Admin";
 import * as ROUTES from "../../constants/routes";
 import { withAuthentication } from '../../components/Session';
 
@@ -28,6 +30,8 @@ const Layout = () => {
             <Route path={ROUTES.SIGN_UP} component={SignUp} />
             <Route path={ROUTES.SIGN_IN} component={SignIn} />
             <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForget} />
+            <Route path={ROUTES.ACCOUNT} component={Account} />
+            <Route path={ROUTES.ADMIN} component={Admin} />
           </Switch>
         </div>
       </div>
