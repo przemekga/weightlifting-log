@@ -2,7 +2,7 @@ const initState = {}
 
 export default (state = initState, action) => {
   switch (action.type) {
-    case :
+    case 'asdasd':
       
     default:
       return state;

@@ -16,6 +16,6 @@ class WorkoutDashboard extends Component {
   }
 }
 
-const condition = authUser => !!authUser;
+const condition = (authUser, role) => !!authUser && true;
 
 export default withAuthorization(condition)(WorkoutDashboard);
