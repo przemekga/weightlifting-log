@@ -1,31 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AuthUserContext from "./context";
 import { withFirebase } from "../Firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { setAuthUser } from "../../store/actions/authActions";
 
 const withAuthentication = Component => {
-  class WithAuthentication extends React.Component {
-    state = {
-      authUser: null
-    }
+  const WithAuthentication = props => {
+    const dispatch = useDispatch();
+    const authUser = useSelector(state => {
+      return state.authReducer.authUser
+    });
 
-    componentDidMount() {
-      this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
+    useEffect(() => {
+      const listener = props.firebase.auth.onAuthStateChanged(authUser => {
         authUser
-          ? this.setState({ authUser })
-          : this.setState({ authUser: null });
+          ? dispatch(setAuthUser(authUser))
+          : dispatch(setAuthUser(null));
       });
-    }
-    componentWillUnmount() {
-      this.listener();
-    }
-    render() {
-      return (
-        <AuthUserContext.Provider value={this.state.authUser}>
-          <Component {...this.props} />
-        </AuthUserContext.Provider>
-      );
-    }
-  }
+
+      return function() {
+        listener();
+      };
+    }, [props.firebase.auth, dispatch]);
+
+    return (
+      <AuthUserContext.Provider value={authUser}>
+        <Component {...props} />
+      </AuthUserContext.Provider>
+    );
+  };
 
   return withFirebase(WithAuthentication);
 };

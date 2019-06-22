@@ -61,7 +61,7 @@ const UserList = ({ users }) => (
               style={{
                 fontSize: "0.3em",
                 margin: "0",
-                fontSize: "bold",
+                fontWeight: "bold",
                 color: "#ccc"
               }}
             >

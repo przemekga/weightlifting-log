@@ -1,5 +1,6 @@
 import React from "react";
 import Sidebar from "../Sidebar/Sidebar";
+import { Link } from "react-router-dom";
 import logo from "../../../assets/images/temple-gym.png";
 import "./Header.scss";
 
@@ -8,13 +9,13 @@ export default function Header() {
     <>
       <div className="navbar-fixed">
         <nav>
-        <a href="#" data-target="slide-out" className="sidenav-trigger">
-          <i className="material-icons">menu</i>
-        </a>
+          <button href="#" data-target="slide-out" className="sidenav-trigger">
+            <i className="material-icons">menu</i>
+          </button>
           <div className="nav-wrapper">
-            <a href="#" className="brand-logo">
+            <Link to="/home" className="brand-logo">
               <img src={logo} alt="" />
-            </a>
+            </Link>
           </div>
         </nav>
       </div>

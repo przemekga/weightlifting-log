@@ -8,7 +8,7 @@ const SignOutButton = ({ firebase }) => {
     firebase.doSignOut();
   }
   return (
-    <a onClick={handleClick}>
+    <a href="/" onClick={handleClick}>
       Sign Out
     </a>
   )

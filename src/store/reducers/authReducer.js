@@ -1,10 +1,25 @@
-const initState = {}
+const initState = {
+  authUser: {}
+}
 
-export default (state = initState, action) => {
+const authReducer = (state = initState, action) => {
   switch (action.type) {
-    case 'asdasd':
-      
+    case 'SET_AUTH_USER':
+      return {
+        ...state,
+        authUser: action.authUser
+      }
+    case 'SET_USER_DATA':
+      return {
+        ...state,
+        authUser: {
+          ...state.authUser,
+          ...action.data
+        }
+      }
     default:
       return state;
   }
 };
+
+export default authReducer

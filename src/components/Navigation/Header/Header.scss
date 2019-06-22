@@ -3,4 +3,26 @@
   img {
     max-width: 100%;
   }
-}  
+}
+nav {
+  .sidenav-trigger {
+    background: 0;
+    border: 0;
+    color: #fff;
+    &:focus {
+      background: 0;
+    }
+  }
+}
+.sidenav {
+  .user-view {
+    padding: 35px 16px 0;
+    .background {
+      display: flex;
+      align-items: center;
+      img {
+        width: 100%;
+      }
+    }
+  } 
+}
