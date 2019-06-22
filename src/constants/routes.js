@@ -8,3 +8,4 @@ export const WORKOUT_DASHBOARD = '/workout-dashboard';
 export const ADD_WORKOUT = '/add-workout';
 export const HISTORY = '/history';
 export const PASSWORD_FORGET = '/reset-password';
+export const ADD_ROUTINE = '/add-routine';

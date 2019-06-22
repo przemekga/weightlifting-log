@@ -42,6 +42,11 @@ const NavLinksAuth = () => {
         </Link>
       </li>
       <li>
+        <Link to={ROUTES.ADD_ROUTINE} className="sidenav-close">
+          <i className="material-icons">add</i>Routine
+        </Link>
+      </li>
+      <li>
         <Link to={ROUTES.HISTORY} className="sidenav-close">
           History
         </Link>
