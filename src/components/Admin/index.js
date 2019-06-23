@@ -57,14 +57,13 @@ const UserList = ({ users }) => (
             <p style={{ margin: "0" }}>{user.email}</p>
             <p
               style={{
-                fontSize: "0.3em",
                 margin: "0",
                 fontWeight: "bold",
                 color: "#ccc"
               }}
             >
               <code style={{
-                fontSize: "0.6em",
+                fontSize: "0.8em",
               }}>ID: {user.uid}</code>
             </p>
           </td>

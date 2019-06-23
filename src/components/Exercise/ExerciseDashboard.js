@@ -91,10 +91,7 @@ const ExerciseDashboard = ({ authUser }) => {
                   <tr key={index}>
                     <td>{index + 1}</td>
                     <ExerciseData>
-                      <details>
-                        <summary>{item.name}</summary>
-                        <p>{item.desc}</p>
-                      </details>
+                      {item.name}
                     </ExerciseData>
                   </tr>
                 ))}
