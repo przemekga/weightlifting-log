@@ -64,6 +64,7 @@ class SignInFormBase extends Component {
               onChange={this.onChange}
               type="email"
               className="validate"
+              id="useremail"
             />
             <label htmlFor="useremail">Email</label>
           </div>
@@ -74,8 +75,9 @@ class SignInFormBase extends Component {
               onChange={this.onChange}
               type="password"
               className="validate"
+              id="password"
             />
-            <label htmlFor="useremail">Password</label>
+            <label htmlFor="password">Password</label>
           </div>
           <div className="col s12">
             <button
