@@ -8,7 +8,7 @@ const WorkoutRoutineStyle = styled.div`
   box-shadow: 0 0 5px 1px #d6d6d6, 7px 6px 20px 1px #d6d6d6;
 `;
 
-const AddRoutine = () => {
+const RoutineDashboard = () => {
   return (
     <>
       <div className="col-12">
@@ -70,4 +70,4 @@ const AddRoutine = () => {
   );
 };
 
-export default AddRoutine;
+export default RoutineDashboard;

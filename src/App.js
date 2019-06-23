@@ -10,7 +10,8 @@ import SignIn from "./components/SignIn/SignIn";
 import PasswordForget from "./components/PasswordForget";
 import Account from "./components/Account";
 import Admin from "./components/Admin";
-import AddRoutine from "./components/AddRoutine/AddRoutine";
+import AddRoutine from "./components/Routine/AddRoutine";
+import RoutineDashboard from "./components/Routine/AddRoutine";
 import * as ROUTES from "./constants/routes";
 import { withAuthentication } from "./components/Session";
 
@@ -36,6 +37,7 @@ class App extends Component {
               <Route path={ROUTES.ACCOUNT} component={Account} />
               <Route path={ROUTES.ADMIN} component={Admin} />
               <Route path={ROUTES.ADD_ROUTINE} component={AddRoutine} />
+              <Route path={ROUTES.ROUTINE_DASHBOARD} component={RoutineDashboard} />
             </Switch>
           </div>
         </div>
