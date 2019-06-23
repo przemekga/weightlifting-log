@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { compose } from "recompose";
-
+import { useDispatch } from "react-redux";
+import { setUserData } from "../../store/actions/authActions";
 import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
 
@@ -22,112 +23,119 @@ const INITIAL_STATE = {
   error: null
 };
 
-class SignUpFormBase extends Component {
-  state = { ...INITIAL_STATE };
+const SignUpFormBase = ({ firebase, history }) => {
+  const [signupState, setSignupState] = useState({ ...INITIAL_STATE });
+  const dispatch = useDispatch();
 
-  onSubmit = event => {
-    const { username, email, passwordOne } = this.state;
+  const onSubmit = event => {
+    const { username, email, passwordOne } = signupState;
 
-    this.props.firebase
+    firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
         // Create a user in your Firebase realtime database
-        return this.props.firebase
-          .user(authUser.user.uid)
-          .set({
-            username,
-            email,
-            role: 'user'
-          });
+        return firebase.user(authUser.user.uid).set({
+          username,
+          email,
+          exercises: [],
+          role: "user"
+        });
       })
       .then(() => {
-        this.setState({ ...INITIAL_STATE });
-        this.props.history.push(ROUTES.WORKOUT_DASHBOARD);
+        const userData = {
+          displayName: username,
+          photoURL: "https://tinyurl.com/y3kswknr"
+        }
+        dispatch(setUserData(userData))
+        return firebase.doUpdateProfile(userData);
+      })
+      .then(() => {
+        setSignupState({ ...INITIAL_STATE });
+        history.push(ROUTES.WORKOUT_DASHBOARD);
       })
       .catch(error => {
-        this.setState({ error });
+        setSignupState({ error });
       });
 
     event.preventDefault();
   };
 
-  onChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+  const onChange = event => {
+    setSignupState({ [event.target.name]: event.target.value });
   };
 
-  render() {
-    const { username, email, passwordOne, passwordTwo, error } = this.state;
-    const isInvalid =
-      passwordOne !== passwordTwo ||
-      passwordOne === "" ||
-      email === "" ||
-      username === "";
-    return (
-      <form onSubmit={this.onSubmit} className="col s12">
-        <div className="row">
-          <div className="input-field col s12">
-            <input
-              name="username"
-              value={username}
-              onChange={this.onChange}
-              type="text"
-              className="validate"
-              id="username"
-            />
-            <label htmlFor="username">Username</label>
-          </div>
-          <div className="input-field col s12">
-            <input
-              name="email"
-              value={email}
-              onChange={this.onChange}
-              type="email"
-              className="validate"
-              id="useremail"
-            />
-            <label htmlFor="useremail">Email</label>
-          </div>
-          <div className="input-field col s12">
-            <input
-              name="passwordOne"
-              value={passwordOne}
-              onChange={this.onChange}
-              type="password"
-              className="validate"
-              id="password"
-            />
-            <label htmlFor="password">Password</label>
-          </div>
-          <div className="input-field col s12">
-            <input
-              name="passwordTwo"
-              value={passwordTwo}
-              onChange={this.onChange}
-              type="password"
-              className="validate"
-              id="passwordTwo"
-            />
-            <label htmlFor="passwordTwo">Repeat password</label>
-          </div>
-          <div className="col s12">
-            <button
-              disabled={isInvalid}
-              className="btn waves-effect waves-light red lighten-2 right"
-              type="submit"
-              name="signup"
-            >
-              Sign Up
-              <i className="material-icons right">send</i>
-            </button>
-          </div>
-          <div className="col s12 red-text text-darken-4">
-            {error && <p>{error.message}</p>}
-          </div>
+  const { username, email, passwordOne, passwordTwo, error } = signupState;
+  const isInvalid =
+    passwordOne !== passwordTwo ||
+    passwordOne === "" ||
+    email === "" ||
+    username === "";
+
+  return (
+    <form onSubmit={onSubmit} className="col s12">
+      <div className="row">
+        <div className="input-field col s12">
+          <input
+            name="username"
+            value={username}
+            onChange={onChange}
+            type="text"
+            className="validate"
+            id="username"
+          />
+          <label htmlFor="username">Username</label>
         </div>
-      </form>
-    );
-  }
-}
+        <div className="input-field col s12">
+          <input
+            name="email"
+            value={email}
+            onChange={onChange}
+            type="email"
+            className="validate"
+            id="useremail"
+          />
+          <label htmlFor="useremail">Email</label>
+        </div>
+        <div className="input-field col s12">
+          <input
+            name="passwordOne"
+            value={passwordOne}
+            onChange={onChange}
+            type="password"
+            className="validate"
+            id="password"
+          />
+          <label htmlFor="password">Password</label>
+        </div>
+        <div className="input-field col s12">
+          <input
+            name="passwordTwo"
+            value={passwordTwo}
+            onChange={onChange}
+            type="password"
+            className="validate"
+            id="passwordTwo"
+          />
+          <label htmlFor="passwordTwo">Repeat password</label>
+        </div>
+        <div className="col s12">
+          <button
+            disabled={isInvalid}
+            className="btn waves-effect waves-light red lighten-2 right"
+            type="submit"
+            name="signup"
+          >
+            Sign Up
+            <i className="material-icons right">send</i>
+          </button>
+        </div>
+        <div className="col s12 red-text text-darken-4">
+          {error && <p>{error.message}</p>}
+        </div>
+      </div>
+    </form>
+  );
+};
 
 const SignUpLink = () => (
   <p>

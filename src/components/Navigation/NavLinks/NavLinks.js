@@ -20,7 +20,9 @@ const NavLinksAuth = () => {
       displayName: state.authReducer.authUser.displayName
     }
   });
-
+  useEffect(() => {
+    console.log(profileData);
+  })
   return (
     <>
       <li>
