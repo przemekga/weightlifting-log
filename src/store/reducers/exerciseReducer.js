@@ -1,9 +1,5 @@
 const initState = {
-  exercises: [
-    { id: 1, name: "Bench Press" },
-    { id: 2, name: "Pullup" },
-    { id: 3, name: "Deadlift" }
-  ]
+  exercises: []
 };
 
 const exerciseReducer = (state = initState, action) => {
@@ -13,6 +9,11 @@ const exerciseReducer = (state = initState, action) => {
         ...state,
         exercises: [...state.exercises, action.exercise]
       };
+    case "SET_EXERCISE_LIST":
+      return {
+        ...state,
+        exercises: [...action.exerciseList]
+      }
     default:
       return state;
   }

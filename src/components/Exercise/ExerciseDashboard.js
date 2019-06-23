@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { addExercise } from "../../store/actions/exerciseActions";
+import { addExercise, fetchExercises } from "../../store/actions/exerciseActions";
 import M from "materialize-css";
-
+import {withAuthorization} from '../Session'
 const Form = styled.form`
   display: block;
   margin-bottom: 1em;
 `;
 
-const ExerciseDashboard = () => {
+const ExerciseDashboard = ({authUser}) => {
   const [exerciseName, setExerciseName] = useState("");
   const dispatch = useDispatch();
   const exercises = useSelector(state => state.exerciseReducer.exercises);
-  const uid = useSelector(state => state.authReducer.authUser.uid);
 
   useEffect(() => {
     M.updateTextFields();
-  }, []);
+    console.log(authUser.uid);
+    dispatch(fetchExercises(authUser.uid));
+  }, [authUser.uid]);
 
   const handleInput = e => {
     setExerciseName(e.target.value);
@@ -69,7 +70,7 @@ const ExerciseDashboard = () => {
 
           <tbody>
             {exercises.map((item, index) => (
-              <tr key={item.id}>
+              <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{item.name}</td>
               </tr>
@@ -81,4 +82,6 @@ const ExerciseDashboard = () => {
   );
 };
 
-export default ExerciseDashboard;
+const condition = (authUser) => !!authUser;
+
+export default withAuthorization(condition)(ExerciseDashboard);
