@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { compose } from "recompose";
 import { useDispatch } from "react-redux";
@@ -25,6 +25,8 @@ const INITIAL_STATE = {
 
 const SignUpFormBase = ({ firebase, history }) => {
   const [signupState, setSignupState] = useState({ ...INITIAL_STATE });
+  const [isInvalid, setIsInvalid] = useState(true);
+
   const dispatch = useDispatch();
 
   const onSubmit = event => {
@@ -45,8 +47,8 @@ const SignUpFormBase = ({ firebase, history }) => {
         const userData = {
           displayName: username,
           photoURL: "https://tinyurl.com/y3kswknr"
-        }
-        dispatch(setUserData(userData))
+        };
+        dispatch(setUserData(userData));
         return firebase.doUpdateProfile(userData);
       })
       .then(() => {
@@ -60,16 +62,20 @@ const SignUpFormBase = ({ firebase, history }) => {
     event.preventDefault();
   };
 
+  const { username, email, passwordOne, passwordTwo, error } = signupState;
+
   const onChange = event => {
-    setSignupState({ [event.target.name]: event.target.value });
+    setSignupState({ ...signupState, [event.target.name]: event.target.value });
   };
 
-  const { username, email, passwordOne, passwordTwo, error } = signupState;
-  const isInvalid =
-    passwordOne !== passwordTwo ||
-    passwordOne === "" ||
-    email === "" ||
-    username === "";
+  useEffect(() => {
+    setIsInvalid(
+      passwordOne !== passwordTwo ||
+        passwordOne === "" ||
+        email === "" ||
+        username === ""
+    );
+  }, [username, email, passwordOne, passwordTwo])
 
   return (
     <form onSubmit={onSubmit} className="col s12">
