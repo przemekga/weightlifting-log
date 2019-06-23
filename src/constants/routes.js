@@ -10,3 +10,5 @@ export const HISTORY = '/history';
 export const PASSWORD_FORGET = '/reset-password';
 export const ADD_ROUTINE = '/add-routine';
 export const ROUTINE_DASHBOARD = '/routine-dashboard';
+export const ADD_EXERCISE = '/add-exercise';
+export const EXERCISE_DASHBOARD = '/exercise-dashboard';
