@@ -13,6 +13,7 @@ const ExerciseDashboard = () => {
   const [exerciseName, setExerciseName] = useState("");
   const dispatch = useDispatch();
   const exercises = useSelector(state => state.exerciseReducer.exercises);
+  const uid = useSelector(state => state.authReducer.authUser.uid);
 
   useEffect(() => {
     M.updateTextFields();
@@ -24,7 +25,6 @@ const ExerciseDashboard = () => {
 
   const handleAddExercise = e => {
     e.preventDefault();
-    console.log(e);
     dispatch(
       addExercise({
         name: exerciseName,

@@ -7,7 +7,6 @@ import * as ROUTES from "../../../constants/routes";
 const NavLinks = () => {
   const authUser = useSelector(state => state.authReducer.authUser);
   useEffect(() => {
-    console.log(authUser);
   }, [authUser])
   return <div>{authUser ? <NavLinksAuth /> : <NaviLinksNonAuth />}</div>;
 };
@@ -20,9 +19,6 @@ const NavLinksAuth = () => {
       displayName: state.authReducer.authUser.displayName
     }
   });
-  useEffect(() => {
-    console.log(profileData);
-  })
   return (
     <>
       <li>

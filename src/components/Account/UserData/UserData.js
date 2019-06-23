@@ -1,16 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { withFirebase } from "../../Firebase";
 import { setUserData } from "../../../store/actions/authActions";
 
 const UserData = ({ firebase }) => {
   const dispatch = useDispatch();
-  // const profileData = useSelector(state => {
-  //   return {
-  //     displayName: state.accountReducer.displayName,
-  //     photoURL: state.accountReducer.photoURL
-  //   };
-  // });
+
 
   const profileData = useSelector(state => {
     return {
@@ -19,9 +14,6 @@ const UserData = ({ firebase }) => {
     };
   });
 
-  useEffect(() => {
-    console.log(profileData);
-  });
 
   const onChange = e => {
     const property = e.target.name;
