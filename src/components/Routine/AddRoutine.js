@@ -5,11 +5,6 @@ import { withAuthorization } from "../Session";
 import { fetchExercises } from "../../store/actions/exerciseActions";
 import WorkoutRoutine from "./WorkoutRoutine";
 
-const Form = styled.form`
-  display: block;
-  margin-bottom: 1em;
-`;
-
 const ExerciseLine = styled.li`
   display: flex;
   justify-content: space-between;

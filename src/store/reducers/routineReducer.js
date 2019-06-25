@@ -49,10 +49,10 @@ const initState = {
 
 const routineReducer = (state = initState, action) => {
   switch (action.type) {
-    case 'SET_WORKOUT':
+    case 'SET_ROUTINES':
       return {
         ...state,
-        authUser: action.workout
+        routineList: action.routines
       }
     default:
       return state;

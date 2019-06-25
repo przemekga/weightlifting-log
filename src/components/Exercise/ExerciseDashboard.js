@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addExercise,
+  addExercise, 
   fetchExercises
 } from "../../store/actions/exerciseActions";
 import M from "materialize-css";

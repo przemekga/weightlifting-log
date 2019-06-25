@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { setUserData } from "../../store/actions/authActions";
 import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
+import uuid from 'uuid/v4'
 
 const SignUpPage = () => (
   <>
@@ -39,17 +40,26 @@ const SignUpFormBase = ({ firebase, history }) => {
         return firebase.user(authUser.user.uid).set({
           username,
           email,
-          exercises: [],
+          exercises: {
+            [uuid()]: {
+              name: 'Chest Press'
+            },
+            [uuid()]: {
+              name: 'Deadlift'
+            },
+            [uuid()]: {
+              name: 'Pullup'
+            },
+          },
           role: "user"
         });
       })
-      .then(() => {
+      .then((res) => {
         const userData = {
           displayName: username,
           photoURL: "https://tinyurl.com/y3kswknr"
         };
         dispatch(setUserData(userData));
-        firebase.userExercise().push({name: 'Chest press'});
         return firebase.doUpdateProfile(userData);
       })
       .then(() => {
