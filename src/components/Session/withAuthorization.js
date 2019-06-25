@@ -1,39 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import { compose } from "recompose";
-
-import AuthUserContext from "./context";
+import { useDispatch, useSelector } from "react-redux";
+import {setAuthUser} from '../../store/actions/authActions';
 import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
 
 const withAuthorization = condition => Component => {
-  class WithAuthorization extends React.Component {
-    componentDidMount() {
-      this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
-        this.props.firebase.userRole(authUser.uid).on("value", snapshot => {
+  const WithAuthorization = props => {
+    const dispatch = useDispatch();
+    const authUser = useSelector(state => state.authReducer.authUser);
+
+    useEffect(() => {
+      const listener = props.firebase.auth.onAuthStateChanged(authUser => {
+        dispatch(setAuthUser(authUser));
+        props.firebase.userRole(authUser.uid).on("value", snapshot => {
           const role = snapshot.val();
-          authUser['role'] = role;
+          authUser["role"] = role;
           if (!condition(authUser)) {
-            this.props.history.push(ROUTES.SIGN_IN);
+            props.history.push(ROUTES.SIGN_IN);
           }
         });
       });
-    }
+      return function() {
+        listener();
+      };
+    }, [props.firebase, props.history]);
 
-    componentWillUnmount() {
-      this.listener();
-    }
-
-    render() {
-      return (
-        <AuthUserContext.Consumer>
-          {(authUser) =>
-            condition(authUser) ? <Component {...this.props} authUser={authUser} /> : null
-          }
-        </AuthUserContext.Consumer>
-      );
-    }
-  }
+    return (
+      <>
+        {condition(authUser) ? (
+          <Component {...props} authUser={authUser} />
+        ) : null}
+      </>
+    );
+  };
 
   return compose(
     withRouter,

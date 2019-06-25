@@ -49,6 +49,7 @@ const SignUpFormBase = ({ firebase, history }) => {
           photoURL: "https://tinyurl.com/y3kswknr"
         };
         dispatch(setUserData(userData));
+        firebase.userExercise().push({name: 'Chest press'});
         return firebase.doUpdateProfile(userData);
       })
       .then(() => {

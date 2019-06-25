@@ -19,7 +19,7 @@ const ExerciseData = styled.td`
   }
 `;
 
-const ExerciseDashboard = ({ authUser }) => {
+const ExerciseDashboard = ({authUser}) => {
   const [exerciseName, setExerciseName] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
@@ -27,12 +27,11 @@ const ExerciseDashboard = ({ authUser }) => {
 
   useEffect(() => {
     M.updateTextFields();
-    console.log(authUser.uid);
     dispatch(fetchExercises(authUser.uid));
     if (exercises.length) {
       setIsLoading(false);
     }
-  }, [authUser.uid, exercises]);
+  }, [exercises.length, dispatch, authUser]);
 
   const handleInput = e => {
     setExerciseName(e.target.value);
@@ -87,14 +86,7 @@ const ExerciseDashboard = ({ authUser }) => {
               </thead>
 
               <tbody>
-                {exercises.map((item, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <ExerciseData>
-                      {item.name}
-                    </ExerciseData>
-                  </tr>
-                ))}
+                <ExerciseList exercises={exercises} />
               </tbody>
             </table>
           </div>
@@ -103,6 +95,17 @@ const ExerciseDashboard = ({ authUser }) => {
     </>
   );
 };
+
+const ExerciseList = ({ exercises }) => (
+  <>
+    {exercises.map((item, index) => (
+      <tr key={index}>
+        <td>{index + 1}</td>
+        <ExerciseData>{item.name}</ExerciseData>
+      </tr>
+    ))}
+  </>
+);
 
 const condition = authUser => !!authUser;
 

@@ -27,7 +27,6 @@ export const setExerciseList = (exerciseList) => {
 }
 
 export const fetchExercises = (uid) => {
-  console.log(uid);
   return dispatch => {
     Firebase.userExercise(uid).on('value', (snapshot) => {
       const snapshotList = snapshot.val();

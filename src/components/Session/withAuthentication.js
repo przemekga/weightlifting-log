@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import AuthUserContext from "./context";
 import { withFirebase } from "../Firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthUser } from "../../store/actions/authActions";
@@ -24,9 +23,7 @@ const withAuthentication = Component => {
     }, [props.firebase.auth, dispatch]);
 
     return (
-      <AuthUserContext.Provider value={authUser}>
-        <Component {...props} />
-      </AuthUserContext.Provider>
+        <Component {...props} authUser={authUser} />
     );
   };
 
