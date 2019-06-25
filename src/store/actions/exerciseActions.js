@@ -1,7 +1,6 @@
 import Firebase from "../../components/Firebase";
 import store from "../store";
 
-
 export const addExerciseAsync = exercise => {
   return {
     type: "ADD_EXERCISE",
@@ -19,23 +18,22 @@ export const addExercise = exercise => {
   };
 };
 
-export const setExerciseList = (exerciseList) => {
+export const setExerciseList = exerciseList => {
   return {
-    type: 'SET_EXERCISE_LIST',
+    type: "SET_EXERCISE_LIST",
     exerciseList
-  }
-}
+  };
+};
 
-export const fetchExercises = (uid) => {
+export const fetchExercises = uid => {
   return dispatch => {
-    Firebase.userExercise(uid).on('value', (snapshot) => {
+    Firebase.userExercise(uid).on("value", snapshot => {
       const snapshotList = snapshot.val();
       let exerciseList = [];
       for (let item in snapshotList) {
-        exerciseList.push(snapshotList[item])
+        exerciseList.push(snapshotList[item]);
       }
       dispatch(setExerciseList(exerciseList));
-    })
-  }
-}
-
+    });
+  };
+};

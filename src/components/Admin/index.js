@@ -74,6 +74,6 @@ const UserList = ({ users }) => (
   </table>
 );
 
-const condition = (authUser) => !!authUser && authUser.role === 'admin';
+const condition = (authUser, role) => !!authUser && role === 'admin';
 
 export default withAuthorization(condition)(AdminPage);

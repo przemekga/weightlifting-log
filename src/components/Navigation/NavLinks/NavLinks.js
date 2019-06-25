@@ -16,7 +16,7 @@ const NavLinksAuth = () => {
       email: state.authReducer.authUser.email,
       photoURL: state.authReducer.authUser.photoURL,
       displayName: state.authReducer.authUser.displayName,
-      role: state.authReducer.authUser.role
+      role: state.authReducer.role
     };
   });
   return (

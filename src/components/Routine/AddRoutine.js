@@ -33,18 +33,25 @@ const ExerciseLine = styled.li`
 `
 
 const AddRoutine = ({ authUser }) => {
+  const [routineName, setRoutineName] = useState('Workout 1');
   const dispatch = useDispatch();
   const exercises = useSelector(state => state.exerciseReducer.exercises);
+  const uid = useSelector(state => state.authReducer.authUser.uid);
 
   useEffect(() => {
-    dispatch(fetchExercises(authUser.uid));
-  }, [authUser.uid, exercises]);
+    console.log(authUser.uid)
+    dispatch(fetchExercises(uid));
+  }, [uid, exercises.length, dispatch]);
+
+  const handleInput = (e) => {
+    setRoutineName(e.target.value);
+  }
 
   return (
     <div className="col s12">
       <div className="routineList">
         <WorkoutRoutineStyle>
-          <OnClickInput value={"Workout 1"} />
+          <OnClickInput value={routineName} onChange={handleInput} />
           <table>
             <thead>
               <tr>
