@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import SignOutButton from "../../SignOut/SignOut";
@@ -6,8 +6,7 @@ import * as ROUTES from "../../../constants/routes";
 
 const NavLinks = () => {
   const authUser = useSelector(state => state.authReducer.authUser);
-  useEffect(() => {
-  }, [authUser])
+  useEffect(() => {}, [authUser]);
   return <div>{authUser ? <NavLinksAuth /> : <NaviLinksNonAuth />}</div>;
 };
 
@@ -16,15 +15,16 @@ const NavLinksAuth = () => {
     return {
       email: state.authReducer.authUser.email,
       photoURL: state.authReducer.authUser.photoURL,
-      displayName: state.authReducer.authUser.displayName
-    }
+      displayName: state.authReducer.authUser.displayName,
+      role: state.authReducer.authUser.role
+    };
   });
   return (
     <>
       <li>
         <div className="user-view">
           <div className="background">
-            <img src={profileData.photoURL} alt="user"/>
+            <img src={profileData.photoURL} alt="user" />
           </div>
           <a href="#name">
             <span className="white-text name">{profileData.displayName}</span>
@@ -62,11 +62,13 @@ const NavLinksAuth = () => {
           Account
         </Link>
       </li>
-      <li>
-        <Link to={ROUTES.ADMIN} className="sidenav-close">
-          Admin
-        </Link>
-      </li>
+      {profileData.role === "admin" && (
+        <li>
+          <Link to={ROUTES.ADMIN} className="sidenav-close">
+            Admin
+          </Link>
+        </li>
+      )}
       <li className="sidenav-close">
         <SignOutButton />
       </li>

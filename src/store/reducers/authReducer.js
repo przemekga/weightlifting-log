@@ -17,6 +17,14 @@ const authReducer = (state = initState, action) => {
           ...action.data
         }
       }
+    case 'SET_USER_ROLE':
+      return {
+        ...state,
+        authUser: {
+          ...state.authUser,
+          role: action.role
+        }
+      }
     default:
       return state;
   }

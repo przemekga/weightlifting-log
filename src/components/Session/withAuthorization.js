@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import { compose } from "recompose";
 import { useDispatch, useSelector } from "react-redux";
-import {setAuthUser} from '../../store/actions/authActions';
+import { setAuthUser } from "../../store/actions/authActions";
 import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
 
@@ -14,13 +14,10 @@ const withAuthorization = condition => Component => {
     useEffect(() => {
       const listener = props.firebase.auth.onAuthStateChanged(authUser => {
         dispatch(setAuthUser(authUser));
-        props.firebase.userRole(authUser.uid).on("value", snapshot => {
-          const role = snapshot.val();
-          authUser["role"] = role;
-          if (!condition(authUser)) {
-            props.history.push(ROUTES.SIGN_IN);
-          }
-        });
+
+        if (!condition(authUser)) {
+          props.history.push(ROUTES.SIGN_IN);
+        }
       });
       return function() {
         listener();

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { withFirebase } from "../Firebase";
 import { useDispatch, useSelector } from "react-redux";
-import { setAuthUser } from "../../store/actions/authActions";
+import { setAuthUser, fetchUserRole } from "../../store/actions/authActions";
 
 const withAuthentication = Component => {
   const WithAuthentication = props => {
@@ -12,9 +12,12 @@ const withAuthentication = Component => {
 
     useEffect(() => {
       const listener = props.firebase.auth.onAuthStateChanged(authUser => {
-        authUser
-          ? dispatch(setAuthUser(authUser))
-          : dispatch(setAuthUser(null));
+        if (authUser) {
+          dispatch(setAuthUser(authUser));
+          dispatch(fetchUserRole(authUser.uid));
+        } else {
+          dispatch(setAuthUser(null));
+        }
       });
 
       return function() {
