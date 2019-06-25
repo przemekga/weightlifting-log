@@ -3,13 +3,12 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { withAuthorization } from "../Session";
 import { fetchExercises } from "../../store/actions/exerciseActions";
-import WorkoutRoutine from './WorkoutRoutine'
+import WorkoutRoutine from "./WorkoutRoutine";
 
 const Form = styled.form`
   display: block;
   margin-bottom: 1em;
 `;
-
 
 const ExerciseLine = styled.li`
   display: flex;
@@ -20,7 +19,7 @@ const ExerciseLine = styled.li`
   i {
     font-size: 1.2em;
   }
-`
+`;
 
 const AddRoutine = () => {
   const dispatch = useDispatch();
@@ -30,7 +29,6 @@ const AddRoutine = () => {
   useEffect(() => {
     dispatch(fetchExercises(uid));
   }, [uid, exercises.length, dispatch]);
-
 
   return (
     <div className="col s12">
@@ -42,7 +40,10 @@ const AddRoutine = () => {
         <ul>
           {exercises.map(item => (
             <ExerciseLine key={item.id}>
-              <span>{item.name}</span> <span><i className="fas fa-plus"></i></span>
+              <span>{item.name}</span>{" "}
+              <span>
+                <i className="fas fa-plus" />
+              </span>
             </ExerciseLine>
           ))}
         </ul>
