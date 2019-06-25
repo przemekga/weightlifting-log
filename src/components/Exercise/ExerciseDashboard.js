@@ -94,7 +94,7 @@ const ExerciseDashboard = ({ authUser, firebase }) => {
 
               <tbody>
                 {exercises.map((item, index) => (
-                  <tr key={index}>
+                  <tr key={item.id}>
                     <td>{index + 1}</td>
                     <ExerciseData>{item.name}</ExerciseData>
                     <td>
