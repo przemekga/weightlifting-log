@@ -31,7 +31,7 @@ export const fetchExercises = uid => {
       const snapshotList = snapshot.val();
       let exerciseList = [];
       for (let item in snapshotList) {
-        exerciseList.push(snapshotList[item]);
+        exerciseList.push({...snapshotList[item], id: item});
       }
       dispatch(setExerciseList(exerciseList));
     });

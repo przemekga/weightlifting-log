@@ -19,7 +19,7 @@ const ExerciseData = styled.td`
   }
 `;
 
-const ExerciseDashboard = ({authUser}) => {
+const ExerciseDashboard = ({ authUser, firebase }) => {
   const [exerciseName, setExerciseName] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
@@ -48,6 +48,13 @@ const ExerciseDashboard = ({authUser}) => {
     setExerciseName("");
   };
 
+  const deleteExercise = id => {
+    firebase
+      .userExercise(authUser.uid)
+      .child(id)
+      .remove();
+  };
+
   return (
     <>
       {isLoading ? (
@@ -60,7 +67,6 @@ const ExerciseDashboard = ({authUser}) => {
           <Form className="col s12" onSubmit={handleAddExercise}>
             <div className="input-field">
               <input
-                placeholder="Placeholder"
                 id="exercise"
                 type="text"
                 className="validate"
@@ -81,12 +87,24 @@ const ExerciseDashboard = ({authUser}) => {
               <thead>
                 <tr>
                   <th width="10%">No.</th>
-                  <th>Exercise</th>
+                  <th width="75%">Exercise</th>
+                  <th width="15%" />
                 </tr>
               </thead>
 
               <tbody>
-                <ExerciseList exercises={exercises} />
+                {exercises.map((item, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <ExerciseData>{item.name}</ExerciseData>
+                    <td>
+                      <i
+                        onClick={() => deleteExercise(item.id)}
+                        className="far fa-trash-alt"
+                      />
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -95,17 +113,6 @@ const ExerciseDashboard = ({authUser}) => {
     </>
   );
 };
-
-const ExerciseList = ({ exercises }) => (
-  <>
-    {exercises.map((item, index) => (
-      <tr key={index}>
-        <td>{index + 1}</td>
-        <ExerciseData>{item.name}</ExerciseData>
-      </tr>
-    ))}
-  </>
-);
 
 const condition = authUser => !!authUser;
 
