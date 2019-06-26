@@ -33,10 +33,9 @@ export const setExerciseList = exerciseList => {
 export const fetchExercises = uid => {
   return async dispatch => {
     try {
-      await Firebase.userExercises(uid).onSnapshot(collection => {
-        const exerciseList = collection.docs.map(doc => doc.data());
-        dispatch(setExerciseList(exerciseList));
-      });
+      const collection = await Firebase.userExercises(uid).get();
+      const exerciseList = collection.docs.map(doc => doc.data());
+      dispatch(setExerciseList(exerciseList));
     } catch (err) {
       console.log(err);
     }
@@ -58,6 +57,7 @@ export const deleteExercise = id => {
       const exercises = await Firebase.userExercises(uid);
       const query = await exercises.where("id", "==", id).get();
       await query.docs[0].ref.delete();
+      dispatch(removeExercise(id));
     } catch (err) {
       console.log(err);
     }
