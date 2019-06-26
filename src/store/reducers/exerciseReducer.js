@@ -13,7 +13,12 @@ const exerciseReducer = (state = initState, action) => {
       return {
         ...state,
         exercises: [...action.exerciseList]
-      }
+      };
+    case "REMOVE_EXERCISE":
+      return {
+        ...state,
+        exercises: state.exercises.filter(exercise => exercise.id !== action.id)
+      };
     default:
       return state;
   }

@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addExercise, 
+  addExercise,
+  deleteExercise,
   fetchExercises
 } from "../../store/actions/exerciseActions";
 import M from "materialize-css";
@@ -48,11 +49,8 @@ const ExerciseDashboard = ({ authUser, firebase }) => {
     setExerciseName("");
   };
 
-  const deleteExercise = id => {
-    firebase
-      .userExercise(authUser.uid)
-      .child(id)
-      .remove();
+  const handleDeleteExercise = id => {
+    dispatch(deleteExercise(id));
   };
 
   return (
@@ -99,7 +97,7 @@ const ExerciseDashboard = ({ authUser, firebase }) => {
                     <ExerciseData>{item.name}</ExerciseData>
                     <td>
                       <i
-                        onClick={() => deleteExercise(item.id)}
+                        onClick={() => handleDeleteExercise(item.id)}
                         className="far fa-trash-alt"
                       />
                     </td>
