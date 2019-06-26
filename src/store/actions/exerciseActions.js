@@ -9,12 +9,9 @@ export const addExerciseAsync = exercise => {
 };
 export const addExercise = exercise => {
   const uid = store.getState().authReducer.authUser.uid;
-  return dispatch => {
-    Firebase.userExercise(uid)
-      .push(exercise)
-      .then(() => {
-        dispatch(addExerciseAsync(exercise));
-      });
+  return async dispatch => {
+    await Firebase.userExercises(uid).add(exercise);
+    dispatch(addExerciseAsync(exercise));
   };
 };
 
@@ -26,13 +23,9 @@ export const setExerciseList = exerciseList => {
 };
 
 export const fetchExercises = uid => {
-  return dispatch => {
-    Firebase.userExercises(uid)
-      .get()
-      .then(collection => {
-        const snapshotList = collection.docs.map(doc => doc.data());
-        console.log(snapshotList);
-        dispatch(setExerciseList(snapshotList));
-      });
+  return async dispatch => {
+    const collection = await Firebase.userExercises(uid).get();
+    const exerciseList = collection.docs.map(doc => doc.data());
+    dispatch(setExerciseList(exerciseList));
   };
 };
