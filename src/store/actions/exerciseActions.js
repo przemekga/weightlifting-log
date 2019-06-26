@@ -27,13 +27,12 @@ export const setExerciseList = exerciseList => {
 
 export const fetchExercises = uid => {
   return dispatch => {
-    Firebase.userExercise(uid).on("value", snapshot => {
-      const snapshotList = snapshot.val();
-      let exerciseList = [];
-      for (let item in snapshotList) {
-        exerciseList.push({...snapshotList[item], id: item});
-      }
-      dispatch(setExerciseList(exerciseList));
-    });
+    Firebase.userExercises(uid)
+      .get()
+      .then(collection => {
+        const snapshotList = collection.docs.map(doc => doc.data());
+        console.log(snapshotList);
+        dispatch(setExerciseList(snapshotList));
+      });
   };
 };

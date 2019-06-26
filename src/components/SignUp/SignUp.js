@@ -37,27 +37,20 @@ const SignUpFormBase = ({ firebase, history }) => {
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
         // Create a user in your Firebase realtime database
-        return firebase.user(authUser.user.uid).set(
+        firebase.user(authUser.user.uid).set(
           {
             username,
             email,
-            exercises: [
-              {
-                name: "Chest Press"
-              },
-              {
-                name: "Deadlift"
-              },
-              {
-                name: "Pullup"
-              }
-            ],
             role: "user"
           },
           { merge: true }
         );
+        firebase.userExercises(authUser.user.uid).add({
+          name: "Pullup",
+          muscles: ["back", "biceps"]
+        });
       })
-      .then(res => {
+      .then(authUser => {
         const userData = {
           displayName: username,
           photoURL: "https://tinyurl.com/y3kswknr"

@@ -1,30 +1,30 @@
-import Firebase from '../../components/Firebase'
+import Firebase from "../../components/Firebase";
 
-export const setAuthUser = (authUser) => {
+export const setAuthUser = authUser => {
   return {
-    type: 'SET_AUTH_USER',
+    type: "SET_AUTH_USER",
     authUser
-  }
-}
+  };
+};
 
-export const setUserData = (data) => {
+export const setUserData = data => {
   return {
-    type: 'SET_USER_DATA',
+    type: "SET_USER_DATA",
     data
-  }
-}
+  };
+};
 
-export const setUserRole = (role) => {
+export const setUserRole = role => {
   return {
-    type: 'SET_USER_ROLE',
+    type: "SET_USER_ROLE",
     role
-  }
-}
+  };
+};
 
-export const fetchUserRole = (uid) => {
+export const fetchUserRole = uid => {
   return dispatch => {
-    Firebase.user(uid).on('value', function (snapshot) {
-      dispatch(setUserRole(snapshot.val().role))
-    })
-  }
-}
+    Firebase.user(uid).onSnapshot(function(user) {
+      dispatch(setUserRole(user.data().role));
+    });
+  };
+};

@@ -38,7 +38,7 @@ class Firebase {
   user = uid => this.db.doc(`users/${uid}`);
   users = () => this.db.collection("users");
   userRole = uid => this.db.doc(`users/${uid}`).data().role;
-  userExercise = uid => this.db.collection(`users/${uid}/exercises`);
+  userExercises = uid => this.db.collection(`users/${uid}/exercises`);
   userRoutines = uid => this.db.collection(`users/${uid}/routines`);
 }
 
