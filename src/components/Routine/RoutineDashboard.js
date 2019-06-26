@@ -11,17 +11,30 @@ const WorkoutRoutineStyle = styled.div`
   box-shadow: 0 0 5px 1px #d6d6d6, 7px 6px 20px 1px #d6d6d6;
 `;
 
-const RoutineDashboard = ({ authUser }) => {
+const RoutineDashboard = ({ authUser, firebase }) => {
   const dispatch = useDispatch();
   const routine = useSelector(state => state.routineReducer.routines);
-  const {name, exercises} = routine;
+  // const {name, exercises} = routine;
   useEffect(() => {
     dispatch(fetchRoutines(authUser.uid));
   }, [authUser.uid, dispatch]);
 
+  const userRoutines = async () => {
+    try {
+      const routine = await firebase.userRoutineExercises(
+        authUser.uid,
+        "10aa7fe5-d6b6-4764-acd8-9227d4e22f74"
+      );
+      console.log(routine);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
       <div className="col-12">
+        <div onClick={userRoutines}>asdasd</div>
         <WorkoutRoutineStyle>
           <h5>Workout routine 1</h5>
           <table>
@@ -80,6 +93,6 @@ const RoutineDashboard = ({ authUser }) => {
   );
 };
 
-const condition = (authUser) => !!authUser;
+const condition = authUser => !!authUser;
 
 export default withAuthorization(condition)(RoutineDashboard);

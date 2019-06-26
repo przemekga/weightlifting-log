@@ -40,6 +40,8 @@ class Firebase {
   userRole = uid => this.db.doc(`users/${uid}`).data().role;
   userExercises = uid => this.db.collection(`users/${uid}/exercises`);
   userRoutines = uid => this.db.collection(`users/${uid}/routines`);
+  userRoutineExercises = (uid, routineId) =>
+    this.db.collection(`users/${uid}/routines/${routineId}/exercises`);
 }
 
 export default Firebase;

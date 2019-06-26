@@ -31,43 +31,91 @@ const SignUpFormBase = ({ firebase, history }) => {
   const dispatch = useDispatch();
 
   const onSubmit = event => {
-    const { username, email, passwordOne } = signupState;
-
-    firebase
-      .doCreateUserWithEmailAndPassword(email, passwordOne)
-      .then(authUser => {
-        // Create a user in your Firebase realtime database
-        firebase.user(authUser.user.uid).set(
-          {
-            username,
-            email,
-            role: "user"
-          },
-          { merge: true }
-        );
-        firebase.userExercises(authUser.user.uid).add({
-          name: "Pullup",
-          muscles: ["back", "biceps"]
-        });
-      })
-      .then(authUser => {
-        const userData = {
-          displayName: username,
-          photoURL: "https://tinyurl.com/y3kswknr"
-        };
-        dispatch(setUserData(userData));
-        return firebase.doUpdateProfile(userData);
-      })
-      .then(() => {
-        setSignupState({ ...INITIAL_STATE });
-        history.push(ROUTES.WORKOUT_DASHBOARD);
-      })
-      .catch(error => {
-        setSignupState({ error });
-      });
-
+    createUser(signupState);
     event.preventDefault();
   };
+
+  async function createUser({ username, email, passwordOne }) {
+    try {
+      const authUser = await firebase.doCreateUserWithEmailAndPassword(
+        email,
+        passwordOne
+      );
+
+      await firebase.user(authUser.user.uid).set(
+        {
+          username,
+          email,
+          role: "user"
+        },
+        { merge: true }
+      );
+
+      await firebase.userExercises(authUser.user.uid).add({
+        name: "Pullup",
+        muscles: ["back", "biceps"]
+      });
+
+      const routineRef = await firebase.userRoutines(authUser.user.uid).add({
+        id: uuid(),
+        name: "Push monday",
+        createdAt: Date.now()
+      });
+
+      // await firebase.userRoutineExercises(authUser.uid, routineId);
+      await firebase
+        .userRoutineExercises(authUser.user.uid, routineRef.id)
+        .add({
+          id: "-LiDl-Z6956ydmEz7hUv",
+          name: "Deadlift",
+          description: "Last set with belt",
+          sets: [
+            {
+              reps: 3,
+              wgt: 80,
+              rest: 120000
+            },
+            {
+              reps: 3,
+              wgt: 90,
+              rest: 120000
+            },
+            {
+              reps: 3,
+              wgt: 100,
+              rest: 120000
+            },
+            {
+              reps: 3,
+              wgt: 110,
+              rest: 120000
+            },
+            {
+              reps: 3,
+              wgt: 120,
+              rest: 120000
+            },
+            {
+              reps: 3,
+              wgt: 130,
+              rest: 120000
+            }
+          ]
+        });
+
+      const userData = {
+        displayName: username,
+        photoURL: "https://tinyurl.com/y3kswknr"
+      };
+
+      dispatch(setUserData(userData));
+      await firebase.doUpdateProfile(userData);
+      setSignupState({ ...INITIAL_STATE });
+      history.push(ROUTES.WORKOUT_DASHBOARD);
+    } catch (error) {
+      setSignupState({ error });
+    }
+  }
 
   const { username, email, passwordOne, passwordTwo, error } = signupState;
 
