@@ -1,6 +1,6 @@
 import app from "firebase/app";
 import "firebase/auth";
-import "firebase/database";
+import "firebase/firestore";
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -13,15 +13,17 @@ const config = {
 class Firebase {
   constructor() {
     app.initializeApp(config);
+    this.fieldValue = app.firestore.FieldValue;
 
     this.auth = app.auth();
-    this.db = app.database();
-    this.uid = '';
+    this.db = app.firestore();
   }
 
-  doCreateUserWithEmailAndPassword = (email, password) => this.auth.createUserWithEmailAndPassword(email, password);
+  doCreateUserWithEmailAndPassword = (email, password) =>
+    this.auth.createUserWithEmailAndPassword(email, password);
 
-  doSignInWithEmailAndPassword = (email, password) => this.auth.signInWithEmailAndPassword(email, password);
+  doSignInWithEmailAndPassword = (email, password) =>
+    this.auth.signInWithEmailAndPassword(email, password);
 
   doSignOut = () => this.auth.signOut();
 
@@ -33,11 +35,11 @@ class Firebase {
 
   //User API
 
-  user = (uid) => this.db.ref(`users/${uid}`);
-  userRole = (uid) => this.db.ref(`users/${uid}/role`);
-  users = () => this.db.ref("users");
-  userExercise = (uid) => this.db.ref(`users/${uid}/exercises`);
-  userRoutines = (uid) => this.db.ref(`users/${uid}/routines`);
+  user = uid => this.db.doc(`users/${uid}`);
+  users = () => this.db.collection("users");
+  userRole = uid => this.db.doc(`users/${uid}`).data().role;
+  userExercise = uid => this.db.collection(`users/${uid}/exercises`);
+  userRoutines = uid => this.db.collection(`users/${uid}/routines`);
 }
 
 export default Firebase;

@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { setUserData } from "../../store/actions/authActions";
 import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
-import uuid from 'uuid/v4'
+import uuid from "uuid/v4";
 
 const SignUpPage = () => (
   <>
@@ -37,24 +37,27 @@ const SignUpFormBase = ({ firebase, history }) => {
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
         // Create a user in your Firebase realtime database
-        return firebase.user(authUser.user.uid).set({
-          username,
-          email,
-          exercises: {
-            [uuid()]: {
-              name: 'Chest Press'
-            },
-            [uuid()]: {
-              name: 'Deadlift'
-            },
-            [uuid()]: {
-              name: 'Pullup'
-            },
+        return firebase.user(authUser.user.uid).set(
+          {
+            username,
+            email,
+            exercises: [
+              {
+                name: "Chest Press"
+              },
+              {
+                name: "Deadlift"
+              },
+              {
+                name: "Pullup"
+              }
+            ],
+            role: "user"
           },
-          role: "user"
-        });
+          { merge: true }
+        );
       })
-      .then((res) => {
+      .then(res => {
         const userData = {
           displayName: username,
           photoURL: "https://tinyurl.com/y3kswknr"
@@ -86,7 +89,7 @@ const SignUpFormBase = ({ firebase, history }) => {
         email === "" ||
         username === ""
     );
-  }, [username, email, passwordOne, passwordTwo])
+  }, [username, email, passwordOne, passwordTwo]);
 
   return (
     <form onSubmit={onSubmit} className="col s12">
