@@ -22,9 +22,13 @@ export const setUserRole = role => {
 };
 
 export const fetchUserRole = uid => {
-  return dispatch => {
-    Firebase.user(uid).onSnapshot(function(user) {
-      dispatch(setUserRole(user.data().role));
-    });
+  return async dispatch => {
+    try {
+      const userRef = await Firebase.user(uid).get();
+      const user = await userRef.data();
+      dispatch(setUserRole(user.role));
+    } catch (err) {
+      console.log(err);
+    }
   };
 };
