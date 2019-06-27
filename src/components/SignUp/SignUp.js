@@ -59,49 +59,84 @@ const SignUpFormBase = ({ firebase, history }) => {
       const routineRef = await firebase.userRoutines(authUser.user.uid).add({
         id: uuid(),
         name: "Push monday",
-        createdAt: Date.now()
+        createdAt: Date.now(),
+        exercises: [
+          {
+            id: uuid(),
+            name: "Deadlift",
+            description: "Last set with belt",
+            sets: [
+              {
+                reps: 3,
+                wgt: 80,
+                rest: 120000
+              },
+              {
+                reps: 3,
+                wgt: 90,
+                rest: 120000
+              },
+              {
+                reps: 3,
+                wgt: 100,
+                rest: 120000
+              },
+              {
+                reps: 3,
+                wgt: 110,
+                rest: 120000
+              },
+              {
+                reps: 3,
+                wgt: 120,
+                rest: 120000
+              },
+              {
+                reps: 3,
+                wgt: 130,
+                rest: 120000
+              }
+            ]
+          },
+          {
+            id: uuid(),
+            name: "Chest Press",
+            description: "",
+            sets: [
+              {
+                reps: 3,
+                wgt: 50,
+                rest: 120000
+              },
+              {
+                reps: 3,
+                wgt: 55,
+                rest: 120000
+              },
+              {
+                reps: 3,
+                wgt: 60,
+                rest: 120000
+              },
+              {
+                reps: 3,
+                wgt: 65,
+                rest: 120000
+              },
+              {
+                reps: 3,
+                wgt: 70,
+                rest: 120000
+              },
+              {
+                reps: 3,
+                wgt: 75,
+                rest: 120000
+              }
+            ]
+          }
+        ]
       });
-
-      // await firebase.userRoutineExercises(authUser.uid, routineId);
-      await firebase
-        .userRoutineExercises(authUser.user.uid, routineRef.id)
-        .add({
-          id: "-LiDl-Z6956ydmEz7hUv",
-          name: "Deadlift",
-          description: "Last set with belt",
-          sets: [
-            {
-              reps: 3,
-              wgt: 80,
-              rest: 120000
-            },
-            {
-              reps: 3,
-              wgt: 90,
-              rest: 120000
-            },
-            {
-              reps: 3,
-              wgt: 100,
-              rest: 120000
-            },
-            {
-              reps: 3,
-              wgt: 110,
-              rest: 120000
-            },
-            {
-              reps: 3,
-              wgt: 120,
-              rest: 120000
-            },
-            {
-              reps: 3,
-              wgt: 130,
-              rest: 120000
-            }
-          ]
-        });
 
       const userData = {
         displayName: username,

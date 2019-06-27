@@ -8,5 +8,18 @@ export const setRoutines = routines => {
 };
 
 export const fetchRoutines = uid => {
-  return dispatch => {};
+  return async dispatch => {
+    try {
+      const querySnapshotRoutines = await Firebase.userRoutines(uid).get();
+      const routines = [];
+      querySnapshotRoutines.forEach(async doc => {
+        const routineData = doc.data();
+        routines.push(routineData);
+      });
+
+      dispatch(setRoutines(routines));
+    } catch (err) {
+      console.log(err);
+    }
+  };
 };

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const WorkoutRoutineStyle = styled.div`
@@ -12,39 +12,32 @@ const OnClickInput = styled.input.attrs(props => ({
   color: #444;
 `;
 
-const WorkoutRoutine = () => {
-  const [routineName, setRoutineName] = useState('Workout 1');
-
-  const handleInput = (e) => {
-    setRoutineName(e.target.value);
-  }
+const WorkoutRoutine = ({ routine }) => {
+  const handleInput = e => {};
   return (
-    <WorkoutRoutineStyle>
-      <OnClickInput value={routineName} onChange={handleInput} />
-      <table>
-        <thead>
-          <tr>
-            <th>No.</th>
-            <th>Exercise</th>
-          </tr>
-        </thead>
+    <div className="col s12">
+      <WorkoutRoutineStyle>
+        <OnClickInput value={routine.name} onChange={handleInput} />
+        <table>
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Exercise</th>
+            </tr>
+          </thead>
 
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Chest press</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Deadlift</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Pullup</td>
-          </tr>
-        </tbody>
-      </table>
-    </WorkoutRoutineStyle>
+          <tbody>
+            {routine.exercises.map((exercise, index) => (
+              <tr key={exercise.id}>
+                <td>{index + 1}</td>
+                <td>{exercise.name}</td>
+                <tr>asdsad</tr>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </WorkoutRoutineStyle>
+    </div>
   );
 };
 
