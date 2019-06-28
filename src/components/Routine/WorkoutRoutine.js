@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { Table, TableRow } from "../Table";
 
 const WorkoutRoutineStyle = styled.div`
   padding: 10px;
@@ -18,24 +19,19 @@ const WorkoutRoutine = ({ routine }) => {
     <div className="col s12">
       <WorkoutRoutineStyle>
         <OnClickInput value={routine.name} onChange={handleInput} />
-        <table>
-          <thead>
-            <tr>
-              <th>No.</th>
-              <th>Exercise</th>
-            </tr>
-          </thead>
+        <Table col={["30px", "1fr"]}>
+          <TableRow>
+            <div>No.</div>
+            <div>Exercise</div>
+          </TableRow>
 
-          <tbody>
-            {routine.exercises.map((exercise, index) => (
-              <tr key={exercise.id}>
-                <td>{index + 1}</td>
-                <td>{exercise.name}</td>
-                <tr>asdsad</tr>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          {routine.exercises.map((exercise, index) => (
+            <TableRow key={exercise.id}>
+              <div>{index + 1}</div>
+              <div>{exercise.name}</div>
+            </TableRow>
+          ))}
+        </Table>
       </WorkoutRoutineStyle>
     </div>
   );
