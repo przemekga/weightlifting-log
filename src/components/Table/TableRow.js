@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { StyledTableWrapper } from "./Table";
 
 const TableRowStyle = styled.div`
+  border-bottom: 1px solid #cbcbcb;
+  padding: 12px 6px;
+
   > div {
     display: grid;
     ${({ col }) => {
@@ -13,7 +16,7 @@ const TableRowStyle = styled.div`
       }
     }}
   }
-  padding: 12px 6px;
+
   ${({ center }) => center && `text-align: center;`}
 
   ${StyledTableWrapper} {
@@ -23,7 +26,10 @@ const TableRowStyle = styled.div`
 
   &:first-of-type {
     font-weight: bold;
-    border-bottom: 1px solid #cbcbcb;
+    border-bottom: 2px solid #cbcbcb;
+  }
+  &:last-of-type {
+    border-bottom: 0;
   }
 `;
 
