@@ -1,15 +1,25 @@
 import React, { cloneElement, Children } from "react";
 import styled from "styled-components";
 
-const StyledTable = styled.div`
+export const StyledTable = styled.div`
   display: grid;
+`;
+
+export const StyledTableWrapper = styled.div`
+  grid-column: 1 / -1;
+
+  > ${StyledTable} {
+    margin-left: 30px;
+  }
 `;
 
 const Table = ({ children, col }) => {
   return (
-    <StyledTable>
-      {Children.map(children, child => cloneElement(child, { col: col }))}
-    </StyledTable>
+    <StyledTableWrapper>
+      <StyledTable>
+        {Children.map(children, child => cloneElement(child, { col: col }))}
+      </StyledTable>
+    </StyledTableWrapper>
   );
 };
 
