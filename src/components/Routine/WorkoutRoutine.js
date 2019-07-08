@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Table, TableRow } from "../Table";
 import { StyledTable, StyledTableWrapper } from "../Table/Table";
+import { millisToMinutesAndSeconds } from "../../utils/utils";
 
 const WorkoutRoutineStyle = styled.div`
   padding: 10px;
@@ -16,12 +17,6 @@ const OnClickInput = styled.input.attrs(props => ({
 }))`
   color: #444;
 `;
-
-function millisToMinutesAndSeconds(millis) {
-  var minutes = Math.floor(millis / 60000);
-  var seconds = ((millis % 60000) / 1000).toFixed(0);
-  return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-}
 
 const WorkoutRoutine = ({ routine, showCompleteBtn = false }) => {
   const [hideSubTable, setHideSubTable] = useState(true);
@@ -56,7 +51,7 @@ const WorkoutRoutine = ({ routine, showCompleteBtn = false }) => {
                   "1fr",
                   "1fr",
                   "1fr",
-                  `${showCompleteBtn ? "30px" : ''}`
+                  `${showCompleteBtn ? "30px" : ""}`
                 ]}
               >
                 <TableRow>
